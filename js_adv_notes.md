@@ -301,3 +301,13 @@ means if you perform any action in your website like `click` `double click` `sel
 
     > you can also use these functions as methods like `h1.click()`.
 
+    - **SUBMIT**
+
+    YEH jab use hota hai jab hm koi bhi form create karte hai or usko submit karte hai toh submit krne k baad hm kese react kre uske liye use hota h.
+
+    > jab bhi form submit hoga hmara function chalega.
+
+    > to prevent your screen form reloading the thing you can uses is `evt.preventDefault()` where `evt` is the value returned by the function.
+
+    
+
