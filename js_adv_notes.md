@@ -266,48 +266,185 @@ means if you perform any action in your website like `click` `double click` `sel
 
     - **CLICK**
 
-    ```javascript
-    let h1 = document.quarySelector("h1");
+        ```javascript
+        let h1 = document.quarySelector("h1");
 
-    function click(){
-        h1.style.color = "red";
-    }
+        function click(){
+            h1.style.color = "red";
+        }
 
-    h1.addEventListener("click" , click);
-    ```
+        h1.addEventListener("click" , click);
+        ```
 
     - **INPUT**
 
-    ```javascript
-    let inp = document.quarySelector("input");
+        ```javascript
+        let inp = document.quarySelector("input");
 
-    inp.addEventListener("input", function(a){
-        console.log(a.data);
-    });
-    ```
+        inp.addEventListener("input", function(a){
+            console.log(a.data);
+        });
+        ```
 
     - **CHANGE**
 
-    yeh tab chalta hai jab aapke input select yah text area mai koi change aata h
+        yeh tab chalta hai jab aapke input select yah text area mai koi change aata h
 
-    ```JAVASCRIPT
-    let select = document.quarySelector("select");
-    let h1 = document.querySelector("h1");
+        ```JAVASCRIPT
+        let select = document.quarySelector("select");
+        let h1 = document.querySelector("h1");
 
-    select.addEventListener("change" , function(){
-    h1.innerHTML = "device selected";
-    });
-    ```
+        select.addEventListener("change" , function(){
+        h1.innerHTML = "device selected";
+        });
+        ```
 
-    > you can also use these functions as methods like `h1.click()`.
+        > you can also use these functions as methods like `h1.click()`.
 
     - **SUBMIT**
 
-    YEH jab use hota hai jab hm koi bhi form create karte hai or usko submit karte hai toh submit krne k baad hm kese react kre uske liye use hota h.
+        YEH jab use hota hai jab hm koi bhi form create karte hai or usko submit karte hai toh submit krne k baad hm kese react kre uske liye use hota h.
 
-    > jab bhi form submit hoga hmara function chalega.
+        > jab bhi form submit hoga hmara function chalega.
 
-    > to prevent your screen form reloading the thing you can uses is `evt.preventDefault()` where `evt` is the value returned by the function.
+        > to prevent your screen form reloading the thing you can uses is `evt.preventDefault()` where `evt` is the value returned by the function.
 
-    
+    - **MOUSEOVER**
 
+        mtlb jab kisi element pai mouse aae toh usme function chl jaega.
+
+        ```javascript
+        let div = document.quarySelector("div");
+
+        div.addEventListener("mouseover" , function(){
+            div.style.backgroundColor = "yellow";
+        });
+        ```
+
+    - **MOUSEOUT**
+
+        jab hmara mouse us element pai se htega toh kya changes aaynge.
+
+        ```javascript
+        let div = document.quarySelector("div");
+
+        div.addEventListener("mouseout" , function(){
+            div.style.backgroundColor = "red";
+        });
+        ```
+
+    - **MOUSEMOVE**
+
+        mtlb hm jab screen p yah particular kisi element p cursor move krenge toh hm function chla skte hai.
+
+        `clientX` `clientY` are the values of X-axis and Y-axis respectively.
+
+        ```JAVASCRIPT
+        let main = document.querySelector("#main");
+
+        window.addEventListener("mousemove" , function(dets){
+            main.style.top = dets.clientY + "px";
+            main.style.left = dets.clientX + "px";
+        });
+        ```
+
+    - **keydown**
+
+        jb hm koi key press krte hai toh kya chnges ho.
+
+    - **keyup**
+
+        jb hm koi key release karte hai toh kya changes ho,
+
+## EVENT OBJECT
+
+jab bhi ham kisi element pai addEventListener lagate hai toh us function k andr jo hme value return mai ilti hai wo hmara event object hota hai.
+
+- **TARGET**
+
+```javascript
+let div = document.quaryselector("div");
+
+div.addEventListener("click" , function(dets){
+    console.log(dets);
+});
+```
+jis element p kuch bhi action hua hai toh `dets.target` mai wohi element present hoga.
+
+- **TYPE**
+
+element p kis type ka event perform hua. `click` `mouseover` `mouseout` `submit`.
+
+- **PREVENTDEFAULT**
+
+    yeh submit hote time screen ko reresh hone se rokta hai.
+
+## EVENT BUBBLING
+
+MTLB jis element p event perform hoga agr us element p event listener nhi hua toh uske parent p listener dhunda jaega. or esa krte krte upr ki trf move krega.
+
+let suppose we have created an `ul` inside the body tag and in ul we have created a number of `li` in it and applied event listener on ul so if we selected any li or apply any event on it then as per this `event bubbling` rule the event listener applied on ul will work.
+
+*HTML*
+```html
+<body>
+    <ul id = "main">
+        <li>priya</li>
+        <li>hema</li>
+        <li>yashvi</li>
+        <li>roshni</li>
+        <li>gopi bahu</li>
+        <li>fullo debi</li>
+        <li>santara devi</li>
+        <li>kalavati</li>
+    </ul>
+    <script src="script.js"></script>
+</body>
+```
+
+*JAVASCRIPT*
+```javascript
+let ul = document.querySelector("#main");
+
+ul.addEventListener("click" , function(dets){
+    dets.target.classList.toggle("lt");
+});
+```
+> EVENT BUBBLING KA MTLB HAI AGR KISI CHILD P EVENT PERFORM HOTA HAI TOH USKE TREE MAI JITNE BHI PARENT HAI UNPE JOBHI EVENT LISTENER LGE HAI WOH SB PERFORM HOTE HAI.
+
+## EVENT CAPTURING
+
+jab bhi aap click karte ho yah kooi bhi event raise karte ho to aapka event flow 2 phase mai chalta hai.
+
+1. event top level element sai niche ki taraf aayega.(`capture phase`)
+2. event raised element sai niche ki araf aayega.(`bubbling phase`)
+
+hmesha phle phase 1 hi chlta hai pr wo by default off hota hai.
+
+suppose we have a code
+
+```html
+<body>
+    <div id="a">
+        <div id="b">
+            <div id="c">
+                <button>click me</button>
+            </div>
+        </div>
+    </div>
+</body>
+```
+capture phase means agr hm button ko click krenge to as per js rule phle capturing phase chalega or wo check krega ki top level element mai capture phase on h ki nhi mtlb `a` mai phir check krega `b` mai or phir `c` mai then `button` mai or agr inme se kisi m bhi capture phase on nhi hoga toh by default bubbling phase chal jaega. or phle `button` ka event listener chlega phir `c` ka phir `b` ka or last mai `a` ka.
+
+agr capturing phase on hua toh phle `div a` ka event listener chlega phir `b` ka phir `c` ka or phir last mai `button` ka
+
+`for turning the capture phase on`
+
+just type `, true` before last `)` brackets.
+
+```javascript
+div.addEventListener("clicked" , function(){
+    alert("clicked");
+}, true );
+```
+that simple dude!!
