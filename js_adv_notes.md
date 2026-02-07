@@ -623,6 +623,12 @@ document.cookie("name=priya");
 ```
 this will create a cookie named `name` having value `priya`.
 
+we can also delete our cookie after sometime. for this we have to make a key value named `max-age` the value given to it is the time in seconds.
+
+```javascript
+document.cookie = "username=priya; max-age=60; path=/";
+```
+
 > **if we try to save data in `localStorage` other than strings then we will face many difficulties**
  array will become a string itself and object will return a value [object, Object].
 
@@ -635,7 +641,7 @@ if you want to add function like if the screen is dark then a dark class will be
 
 ```javascript
 function setDarkOrLight() {
-    if (window.matchMedia("(prefers-color-scheme: dark").matches) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add("dark");
         document.body.classList.remove("light");
     } else {
@@ -644,3 +650,5 @@ function setDarkOrLight() {
     };
 };
 ```
+> `localStorage` is able to store only string data not others because it's API is build only or strings.
+
